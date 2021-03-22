@@ -27,8 +27,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let gameLabel = SKLabelNode(text: "Welcome")
     var scoreLabel = SKLabelNode(text: "0")
     var gameScore = 0
-    //var highScore = UserDefaults.standard.set(Int, forKey: "HIGHSCORE")
     let highScoreLabel = SKLabelNode(text: "Highscore:")
+    
+    var defaults = UserDefaults.standard
+    
         
     let background1 = SKSpriteNode(imageNamed: "background_1")
     let background2 = SKSpriteNode(imageNamed: "background_2")
@@ -60,11 +62,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(scoreLabel)
         
         highScoreLabel.fontSize = 50
-        highScoreLabel.position = CGPoint(x: 200, y: 550)
+        highScoreLabel.position = CGPoint(x: 200, y: 460)
         self.addChild(highScoreLabel)
       
         createEnemy()
         addBackground()
+        loadHighScore()
        
         
         let difficultLevel: DifficultLevel = DifficultLevel.hard
@@ -222,11 +225,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
     func saveHighScore(){
-          
-        
-        
+        defaults.set("\(gameScore)", forKey: "HIGHSCORE")
     }
     
+    func loadHighScore() {
+        let highScore = defaults.integer(forKey: "HIGHSCORE")
+        highScoreLabel.text = "Highscore: \(highScore)"
+        }
   
     
     override func update(_ currentTime: TimeInterval) {
@@ -241,9 +246,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
       saveHighScore()
-        
+    
+       
     }
     
+   
     
     
     
